@@ -1,11 +1,17 @@
 const express = require("express") // Primeiro passo foi importar o express no JS 
-const port = 3000
 const uuid = require("uuid")
+const cors = require("cors")
 
 
+// import express from "express";
+// import { v4 } from "uuid";
+// import cors from "cors"
+
+
+const port = 3001
 const app = express() // segundo passo foi cirar uma variável para nos ajudar a desenvolver o express de maneira fácil, só digitando app
 app.use(express.json())
-
+app.use(cors())
 
 
     //formato de cada requisições: 
@@ -19,7 +25,6 @@ app.use(express.json())
 const users = []
 
     const checarIDDoUsuario = (request, response, next) =>{
-
         const {id} = request.params
 
         const index = users.findIndex(item => item.id === id )
@@ -31,7 +36,6 @@ const users = []
         request.userIndex = index
         request.userId= id 
         next()
-        
 
     }
 
@@ -53,9 +57,12 @@ const users = []
 
         users.push(userId)
 
-        return response.status(201).json(users)
+        // return response.status(201).json(users)
+        return response.status(201).json([userId]);
+
         
     }) 
+
 
 
 
@@ -75,22 +82,16 @@ const users = []
         users[index] = updateUsers
 
 
-
-
         return response.json(updateUsers)
 
     }) 
 
+
+
     app.delete("/users/:id",checarIDDoUsuario, (request, response)=>{
 
         const index  = request.userIndex
-
-
-     
-
         users.splice(index,1)
-
-
 
 console.log(index)
 
@@ -106,8 +107,10 @@ console.log(index)
 
 
 
+
+    
 app.listen(port, ()=>{
-    console.log("Server started on port 3000")
+    console.log("Server started on port 3001")
 })                                                                
 
 
@@ -117,9 +120,6 @@ app.listen(port, ()=>{
         // const {name, age} = request.body
         // console.log(request)
         // return response.json({name, age})
-
-        
-
 
         // const users = request.params   -Route params
 
